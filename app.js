@@ -25,6 +25,11 @@ app.use(cors());    //use cors middleware
 //add static folder
 app.use(express.static(path.join(__dirname,'public')));
 
+//add passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
+
 //add routes to /users
 app.use('/users',users);
 

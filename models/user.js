@@ -37,7 +37,6 @@ module.exports.getUserByUsername = function(username, callback){
 };
 
 module.exports.addUser = function(newUser, callback){
-    console.log(newUser);
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(newUser.password, salt, function(err, hash) {
             // Store hash in your password DB.
@@ -46,5 +45,11 @@ module.exports.addUser = function(newUser, callback){
             newUser.save(callback);// because newUser is new from model, can be saved to db directly
         });
     });
+};
 
+module.exports.comparePassword = function(candidatePwd, hash, callback){
+    bcrypt.compare(candidatePwd, hash, (err, isMatch)=>{
+        if (err) throw err;        
+        callback(null, isMatch);
+    });
 };
